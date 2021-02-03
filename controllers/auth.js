@@ -16,5 +16,8 @@ exports.signup = async (req, res, next) => {
 };
 
 exports.test = (req, res, next) => {
-    res.json({ tested: "ok" })
+    res.json({ 
+        tested: "ok",
+        "backend": "ok"
+ })
 }
