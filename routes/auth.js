@@ -1,12 +1,13 @@
 const express = require("express");
 const router = express.Router();
-//const {validateBody, schemas, loginschemas} = require('../helpers/routehelpers');
-const {signup, test} = require('../controllers/auth');
+const {validateBody, schemas} = require('../helpers/routehelpers');
+const {signup, signin, test} = require('../controllers/auth');
+const {protect, authorize} = require('../middleware/auth');
 //const {userSignupValidator} = require('../validator');
-router.post("/signup", signup);
+router.post("/signup",protect,authorize('hr'), signup);
+router.post("/signin",validateBody(schemas.authSchema),signin);
 router.get("/test", test);
 
-//router.post("/signin",signin);
-//router.get("/signout",signout);
 
 module.exports = router;
+

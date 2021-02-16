@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-//const jwt = require('jsonwebtoken');
+const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
 const Schema = mongoose.Schema;
 //create schema
@@ -16,7 +16,6 @@ const userSchema = new Schema({
     phone: String,
     datejoin: String,
     department: String,
-    username: String,
     password: String,
     status: {
         type:String,
@@ -25,6 +24,34 @@ const userSchema = new Schema({
     
     
 }, { timestamps: true });
+
+userSchema.methods.getSignedJWToken = function()
+{
+
+    return jwt.sign({id: this._id}, process.env.KEYGEN, {expiresIn: '3d'} );
+
+}
+
+
+userSchema.pre('save', async function(next){
+    try{
+
+        //generate a salt
+       const salt = await bcrypt.genSalt(10);
+       //generate password hash
+        const passwordHash = await bcrypt.hash(this.password, salt);
+        //re-assign hasshed version of original
+        this.password = passwordHash;
+        next();
+       
+    }
+    catch(error)
+    {
+        next(error);
+
+    }
+
+});
 
 userSchema.pre('save', async function(next){
     try{
