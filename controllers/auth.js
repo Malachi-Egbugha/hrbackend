@@ -25,13 +25,15 @@ exports.signin = async (req, res, next) =>{
     
 try{
     //desruecture username and password
-    const {username, password} = req.value.body;
+    const {staffregnumber, password} = req.value.body;
+ 
     // validate usr name and password
-    if(!username || !password){
-        return res.status(403).json({error: 'Please provide Username and Password'});
+    if(!staffregnumber || !password){
+        return res.status(403).json({error: 'Please provide Staffid and Password'});
     }
     //find user
-    const user = await User.findOne({username});
+    const user = await User.findOne({staffregnumber});
+   
     //check is user exist
     if(!user)
     {
@@ -40,6 +42,7 @@ try{
     }
     //check is password match
     const isMatch = await user.isValidPassword(password);
+    console.log(isMatch);
     if(!isMatch)
     {
      console.log('checklog',isMatch);

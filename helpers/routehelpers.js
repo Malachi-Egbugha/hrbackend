@@ -16,7 +16,7 @@ exports.validateBody =  (schema) => {
 };
 exports.schemas = {
     authSchema: Joi.object({
-        username: Joi.string().required(),
+        staffregnumber: Joi.string().required(),
         password: Joi.string().required()
     })
 

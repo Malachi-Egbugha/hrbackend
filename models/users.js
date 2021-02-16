@@ -37,31 +37,13 @@ userSchema.pre('save', async function(next){
     try{
 
         //generate a salt
-       const salt = await bcrypt.genSalt(10);
+        const salt = await bcrypt.genSalt(10);
        //generate password hash
+       console.log(this.password);
         const passwordHash = await bcrypt.hash(this.password, salt);
         //re-assign hasshed version of original
         this.password = passwordHash;
-        next();
-       
-    }
-    catch(error)
-    {
-        next(error);
-
-    }
-
-});
-
-userSchema.pre('save', async function(next){
-    try{
-
-        //generate a salt
-       const salt = await bcrypt.genSalt(10);
-       //generate password hash
-        const passwordHash = await bcrypt.hash(this.password, salt);
-        //re-assign hasshed version of original
-        this.password = passwordHash;
+        
         next();
        
     }
@@ -76,7 +58,7 @@ userSchema.methods.isValidPassword = async function(newPassword)
 {
     try
     {
-
+        
         return await bcrypt.compare(newPassword, this.password);
     }
     catch(error)
