@@ -13,3 +13,23 @@ exports.readall = async (req, res, next) => {
   
 };
 
+exports.stats = async (req, res, next) =>{
+
+
+
+    try{
+        //count number of users
+        const totalUsers = await User.countDocuments();
+        //count number of active user:  
+        const totalActive = await User.countDocuments({status: "active"})  
+        //count number of deactivated users
+        const totalDeactive = await User.countDocuments({status: "deactive"})  
+        //send response
+        res.json({totalUsers, totalActive, totalDeactive});
+
+    }
+    catch(err){
+        next(err);
+    }
+}
+

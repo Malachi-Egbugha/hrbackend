@@ -61,7 +61,20 @@ catch(err){
 
 
 
-}
+};
+exports.signout = async (req, res, next) => {
+   try{
+    res.clearCookie('token');
+    res.json({message: 'Signout success'});
+
+   }
+   catch(err)
+   {
+       next(err)
+
+   }
+};
+
 
 exports.test = (req, res, next) => {
     res.json({ 
