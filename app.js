@@ -20,6 +20,7 @@ app.use(cookieParser());
 //routes
 app.use('/api', require('./routes/auth'));
 app.use('/user', require('./routes/user'));
+app.use('/leave', require('./routes/leave'));
 
 
 //Start the server
